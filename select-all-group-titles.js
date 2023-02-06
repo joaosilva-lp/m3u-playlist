@@ -1,4 +1,4 @@
- const fs = require('fs');
+const fs = require('fs');
 
 fs.readFile('group-titles.txt', 'utf-8', (err, data) => {
   if (err) {
@@ -28,13 +28,13 @@ fs.readFile('group-titles.txt', 'utf-8', (err, data) => {
           if (line.startsWith('#EXTINF:') && groupTitles.some(title => line.includes(title))) {
             const nextLine = lines[i + 1];
             items.push(line + '\n' + nextLine);
-			console.log(line + '\n' + nextLine);
           }
         }
 
-        items.forEach(item => {
-          console.log(item);
-        });
+        if (items.length === 0) {
+          console.log(`No group-title found in ${file}`);
+          return;
+        }
 
         fs.writeFile(`output-${file}`, items.join('\n'), (writeErr) => {
           if (writeErr) {
